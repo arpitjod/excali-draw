@@ -3,7 +3,14 @@ import { JWT_TOKEN } from "@repo/backend-common/config";
 import jwt from "jsonwebtoken";
 import { prismaClient } from "@repo/schema/client";
 
-const wss = new WebSocketServer({ port: 8080 });
+const wss = new WebSocketServer({ port: 0 });
+
+wss.on('listening', () => {
+  const address = wss.address();
+  if (typeof address === 'object' && address !== null) {
+    console.log(`🚀 WebSocket server running on port ${address.port}`);
+  }
+});
 
 interface User {
     ws: WebSocket,
